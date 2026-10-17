@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JIT Firewall</title>
+  <link rel="stylesheet" href="/web/styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo">JIT</div>
+          <div>
+            <h1>Firewall Control</h1>
+            <p class="subtitle">A clean control panel for your just-in-time app access API. Toggle Docker app ports, temporarily open access, and keep rules visible at a glance.</p>
+          </div>
+        </div>
+        <div class="status-row">
+          <span id="connectionPill" class="pill"><span class="dot"></span>Not connected</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel settings">
+      <label>
+        API Base URL
+        <input id="baseUrl" placeholder="Same origin, or https://your-host/api" autocomplete="off" spellcheck="false" />
+      </label>
+      <label>
+        API Token
+        <input id="token" type="password" placeholder="Bearer token" autocomplete="current-password" />
+      </label>
+      <button class="btn primary" id="connectBtn">Connect</button>
+    </section>
+
+    <section class="panel manager">
+      <button class="btn primary" id="addApp" disabled>Add app</button>
+      <form id="appForm" hidden>
+        <h2 id="formTitle" class="wide">Add app</h2>
+        <label>App ID<input id="appId" required maxlength="64" pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,63}" /></label>
+        <label>Name<input id="appName" required maxlength="100" /></label>
+        <label>Published host port<input id="appPort" type="number" min="1" max="65535" required /></label>
+        <label>Protocol<select id="appProto"><option value="tcp">TCP</option><option value="udp">UDP</option></select></label>
+        <label class="wide">Description<input id="appDescription" maxlength="500" /></label>
+        <p class="subtitle wide">New apps start blocked. ID, port and protocol stay fixed after creation. Removing an app leaves its port blocked.</p>
+        <p id="formError" class="error-message wide" role="alert"></p>
+        <button class="btn primary" id="saveApp" type="submit">Save app</button>
+        <button class="btn ghost" type="button" id="cancelApp">Cancel</button>
+      </form>
+    </section>
+    <section id="rulesGrid" class="grid"></section>
+    <section id="emptyState" class="panel empty">Connect to the API to load firewall rules.</section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/web/app.js" defer></script>
+</body>
+</html>

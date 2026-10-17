@@ -1,0 +1,21 @@
+[Unit]
+Description=JIT Firewall API and expiry worker
+After=network.target docker.service netfilter-persistent.service
+
+[Service]
+Type=simple
+User=jit-firewall
+Group=jit-firewall
+WorkingDirectory=/srv/jit-firewall/app
+EnvironmentFile=/etc/jit-firewall.env
+StateDirectory=jit-firewall
+StateDirectoryMode=0700
+UMask=0077
+ExecStart=/srv/jit-firewall/venv/bin/gunicorn --workers 1 --worker-class gthread --threads 4 --timeout 120 --bind ${JIT_HOST}:${JIT_PORT} wsgi:app
+Restart=on-failure
+RestartSec=3
+# The current adapter needs passwordless sudo for iptables/netfilter-persistent.
+# Do not enable NoNewPrivileges or PrivateNetwork for this adapter.
+
+[Install]
+WantedBy=multi-user.target

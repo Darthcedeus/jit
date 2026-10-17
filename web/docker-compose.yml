@@ -1,0 +1,12 @@
+# Optional standalone UI; configure the API URL in the dashboard.
+# Configure its API Base URL and allow its exact origin via JIT_CORS_ORIGINS.
+services:
+  jit-firewall-web:
+    image: nginx:alpine
+    container_name: jit-firewall-web
+    restart: unless-stopped
+    ports:
+      - "9080:80"
+    volumes:
+      - .:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro

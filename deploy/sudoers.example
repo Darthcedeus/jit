@@ -1,0 +1,4 @@
+# Validate using: visudo -cf /etc/sudoers.d/jit-firewall
+# Compatibility adapter: these are broad firewall administration privileges.
+# Restrict login and write access for jit-firewall; do not grant this to other users.
+jit-firewall ALL=(root) NOPASSWD: /usr/sbin/iptables, /usr/sbin/netfilter-persistent
