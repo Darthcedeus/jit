@@ -1,0 +1,19 @@
+# JIT dashboard only. The privileged firewall API stays on the host under systemd.
+# No Docker socket, NET_ADMIN capabilities, host networking, or host bind mounts.
+services:
+  jit-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:8080:80"
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
